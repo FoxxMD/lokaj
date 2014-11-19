@@ -28,8 +28,8 @@ angular.module('gtfest', ['ui.bootstrap', 'restangular', 'ui.router', 'ngStorage
                     }]
                 }
             })
-            /*.state('globalSkeleton.portal', {
-                url: '/{opt:(?:login|register)}',
+            .state('globalSkeleton.portal', {
+                url: '/', //{opt:(?:login|register)} This won't work?
                 params: {
                     opt: {value: null}
                 },
@@ -91,7 +91,7 @@ angular.module('gtfest', ['ui.bootstrap', 'restangular', 'ui.router', 'ngStorage
                         return deferred.promise;
                     }
                 }
-            })*/
+            })
             .state('eventSkeleton', {
                 templateUrl: '/views/shared/skeleton.html',
                 url: '/event/{eventId:[0-9]+}',
@@ -388,8 +388,8 @@ angular.module('gtfest', ['ui.bootstrap', 'restangular', 'ui.router', 'ngStorage
                 controller: 'AccountController as accountCtrl'
             });
 
-        $urlRouterProvider.when('','/event/1');
-        $urlRouterProvider.otherwise('/event/1');
+        $urlRouterProvider.when('/','');
+        $urlRouterProvider.otherwise('');
         $locationProvider.html5Mode(true);
         RestangularProvider.setBaseUrl('/api');
 
@@ -461,28 +461,6 @@ angular.module('gtfest').run(["$rootScope", "Restangular", "Account", "$urlRoute
     function ($rootScope, Restangular, Account, $urlRouter, $location, $state, editableOptions, editableThemes, $http) {
 
         FastClick.attach(document.body);
-        //This is a stand-in for angular's regular transformer where tests must pass in order to transform
-        //Need this because I am returning all resposnes as json/application from scalatra. This needs to be fixed server side
-        //But this will do for now
-/*        var JSON_START = /^\s*(\[|\{[^\{])/,
-            JSON_END = /[\}\]]\s*$/,
-            PROTECTION_PREFIX = /^\)\]\}',?\n/,
-            APPLICATION_JSON = 'application/json',
-            CONTENT_TYPE_APPLICATION_JSON = {'Content-Type': APPLICATION_JSON + ';charset=utf-8'};
-        var parseResponse = function(data, headers) {
-            if (angular.isString(data)) {
-                // strip json vulnerability protection prefix
-                data = data.replace(PROTECTION_PREFIX, '');
-                var contentType = headers('Content-Type');
-                if ((contentType && contentType.indexOf(APPLICATION_JSON) === 0) &&
-                    (JSON_START.test(data) && JSON_END.test(data))) {
-                    data = angular.fromJson(data);
-                }
-            }
-            return data;
-        };
-
-        $http.defaults.transformResponse = parseResponse;*/
 
         editableThemes.bs3.inputClass = 'form-control input-sm';
         editableThemes.bs3.buttonsClass = 'btn-sm';
