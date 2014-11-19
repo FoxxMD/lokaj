@@ -1,0 +1,59 @@
+.cbp-af-header {
+  width:100%;
+  background:#2d7aa6;
+  z-index:2000;
+  height:200px;
+  overflow:visible;
+  -webkit-transition:height 0.3s;
+  -moz-transition:height 0.3s;
+  transition:height 0.3s;
+  .cbp-af-inner {
+    width:90%;
+    margin:0 auto;
+  }
+  h1 {
+    display:inline-block;
+    line-height:200px;
+    color:#333333;
+    letter-spacing:4px;
+    font-size:3em;
+    margin:0;
+    float:left;
+    -webkit-transition:all 0.3s;
+    -moz-transition:all 0.3s;
+    transition:all 0.3s;
+  }
+  nav {
+    display:inline-block;
+    float:right;
+    a.topLink {
+      line-height:200px;
+    }
+    a.topLink.active {
+      color:#373737;
+    }
+    a {
+      color:#aaaaaa;
+      font-weight:700;
+      margin:0 0 0 20px;
+      font-size:1.2em;
+      text-decoration:none;
+      -webkit-transition:all 0.3s;
+      -moz-transition:all 0.3s;
+      transition:all 0.3s;
+    }
+    a:hover {
+      color:#333333;
+    }
+  }
+}
+.cbp-af-header.cbp-af-header-shrink {
+  height:120px;
+  h1 {
+    line-height:90px;
+    font-size:2em;
+  }
+  nav a {
+    line-height:90px;
+  }
+}

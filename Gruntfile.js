@@ -52,11 +52,14 @@ module.exports = function (grunt) {
         },
         less: {
             dev: {
-/*                options: {
-                    paths: ['<%= yeoman.app %>/less/']
-                },*/
+               options: {
+                    sourceMap: true,
+                   sourceMapBasepath: '<%= yeoman.app %>/css/less/',
+                   sourceMapRootpath: 'less/',
+                   outputSourceFiles: true
+                },
                 files: {
-                    '<%= yeoman.app %>/css/app.css': '<%= yeoman.app %>/less/app.less'
+                    '<%= yeoman.app %>/css/app.css': '<%= yeoman.app %>/css/less/app.less'
                 }
             }
         },
@@ -244,6 +247,7 @@ module.exports = function (grunt) {
                 ]
             }
         }
+
     });
 
     grunt.registerTask('server:dev', function (target) {
