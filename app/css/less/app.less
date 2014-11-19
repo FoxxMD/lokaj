@@ -1,13 +1,21 @@
 @import "grid";
 @import "hallo";
-@import "header";
+//@import "header";
 @import "nav";
 @import "tileHover";
 
-body {
+/*html {
+    position:relative;
+    min-height:100%;
+}*/
+
+body#gamefestBody {
     font-family: 'Lato', sans-serif;
     /*margin-top:15em;*/
     color: #373737;
+    overflow:scroll;
+    background-color:#ABABAB;
+    //margin-bottom: 20px;
     a {
         cursor: pointer;
         color: white;
@@ -72,7 +80,49 @@ body {
     h4 {
         font-size: 0.9em;
     }
+    .main {
+        background-color: #ABABAB;
+    }
+    .footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        /* Set the fixed height of the footer here */
+        height: 20px;
+        background-color: inherit;
+    }
+    .snap-content,.snap-drawers{
+        top:50px;
+    }
 }
+.sidebar {
+    background-color:#5B5B5B;
+}
+.navbar {
+    border:none;
+    &.header {
+        background-color: #CA6842;
+
+        &.event {
+            background-color: #2d7aa6;
+        }
+    }
+    .navbar-brand{
+        padding:7px;
+        .fa-bars {
+            margin-right:20px;
+            &:hover{
+                cursor:pointer;
+            }
+        }
+        img {
+            height:100%;
+            display:inline-block;
+            margin-bottom: 14px;
+        }
+    }
+}
+
 
 .headerWrapper {
     position: fixed;
@@ -214,18 +264,14 @@ a.editable-click {
     font-weight: 300;
 }
 
-.cbp-af-header {
-    &.globalHeader {
-        background-color: #CA6842
-    }
-}
+
 
 .cbp-hssubmenu li a span {
     line-height: normal;
 }
 
-.contentPane {
-    margin-top: 230px;
+#datContent {
+    margin-top: 30px;
 }
 
 .table-striped tbody tr:nth-child(odd) td,

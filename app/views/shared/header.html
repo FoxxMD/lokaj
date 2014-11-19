@@ -1,0 +1,35 @@
+<div ng-switch="headerCtrl.event() != undefined">
+    <ul ng-switch-when="true" class="nav navbar-nav navbar-right">
+        <li><a ui-sref="eventSkeleton.schedule" ui-sref-active="active" class="topLink">Schedule</a></li>
+        <li><a ui-sref="eventSkeleton.tournaments" ui-sref-active="active" class="topLink">Tournaments <span class="badge">{{headerCtrl.event().tournaments}}</span></a>
+        <li><a id="gamesHeaderLink" class="topLink">Games <span class="badge">{{headerCtrl.event().games.length}}</span></a>
+        </li>
+        <li><a ui-sref="eventSkeleton.users" ui-sref-active="active" class="topLink">Users <span class="badge">{{headerCtrl.event().users}}</span></a></li>
+        <li><a ui-sref="eventSkeleton.guilds" ui-sref-active="active" class="topLink">Teams and Guilds<span class="badge">{{headerCtrl.event().teams}}</span></a></li>
+        <li><a ui-sref="eventSkeleton.about" ui-sref-active="active" class="topLink">About</a></li>
+        <li><a ui-sref="eventSkeleton.faq" ui-sref-active="active" class="topLink">FAQ</a></li>
+        <li ng-show="cncCtrl.account.isLoggedIn() && cncCtrl.account.isRegisteredForEvent(headerCtrl.event().id) && !cncCtrl.account.hasPaid(headerCtrl.event().id)" ui-sref-active="active"><a
+                ui-sref="eventSkeleton.pay" class="topLink">Pay</a></li>
+        <li ng-show="headerCtrl.isAdmin() || (cncCtrl.account.isAdmin() && cncCtrl.account.adminEnabled())"><a ui-sref="eventSkeleton.settings" ui-sref-active="active" class="topLink">Settings</a>
+        </li>
+        <li ng-if="cncCtrl.account.isLoggedIn() && !headerCtrl.isAdmin()" ng-switch="cncCtrl.account.isRegisteredForEvent(headerCtrl.event().id)">
+            <a class="topLink" ng-switch-when="false" ng-click="eventCtrl.tryJoin()">Join</a>
+            <a class="topLink" ng-switch-when="true" ng-click="eventCtrl.tryLeave()">Leave</a>
+        </li>
+        <!-- End Event Header Links -->
+        <li ng-hide="cncCtrl.account.isLoggedIn()" ng-click="openRegister()"><a class="topLink">Register</a></li>
+        <li ng-hide="cncCtrl.account.isLoggedIn()"><a ng-click="openLogin()" class="topLink">Login</a></li>
+        <li ng-show="cncCtrl.account.isLoggedIn()" ng-click="cncCtrl.account.logout()"><a class="topLink">Logout</a></li>
+    </ul>
+    <ul ng-switch-default class="nav navbar-nav navbar-right">
+        <li><a ui-sref="globalSkeleton.events"  ui-sref-active="active" class="topLink">Events</a></li>
+        <li><a ui-sref="globalSkeleton.tournaments"  class="topLink">Tournaments</a></li>
+        <li><a ui-sref="globalSkeleton.friends"  class="topLink">Friends</a></li>
+        <li><a ui-sref="globalSkeleton.users"  class="topLink">Users</a></li>
+        <li><a ui-sref="globalSkeleton.guilds" ui-sref-active="active" class="topLink">Guilds</a></li>
+        <!-- End Global Header Links -->
+        <li ng-hide="cncCtrl.account.isLoggedIn()" ng-click="openRegister()"><a class="topLink">Register</a></li>
+        <li ng-hide="cncCtrl.account.isLoggedIn()"><a ng-click="openLogin()" class="topLink">Login</a></li>
+        <li ng-show="cncCtrl.account.isLoggedIn()" ng-click="cncCtrl.account.logout()"><a class="topLink">Logout</a></li>
+    </ul>
+</div>
