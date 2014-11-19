@@ -3,13 +3,13 @@
 angular.module('gtfest', ['ui.bootstrap', 'restangular', 'ui.router', 'ngStorage', 'ngTouch',
         'ui.bootstrap.showErrors', 'ngAnimate', 'ui.validate', 'angular-loading-bar', 'ngSanitize','angular-ladda',
         'xeditable','angularPayments', 'ui.calendar','infinite-scroll','wu.masonry','ngTagsInput','ui.tree',
-        'angulartics', 'angulartics.google.analytics', 'toaster', 'ngFlowtype', 'toggle-switch'],
-    ["$stateProvider", "$urlRouterProvider", "$locationProvider", "$httpProvider", "RestangularProvider", "$analyticsProvider",
-        function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, RestangularProvider, $analyticsProvider) {
+        'angulartics', 'angulartics.google.analytics', 'toaster', 'ngFlowtype', 'toggle-switch', 'snap'],
+    ["$stateProvider", "$urlRouterProvider", "$locationProvider", "$httpProvider", "RestangularProvider", "$analyticsProvider","snapRemoteProvider",
+        function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, RestangularProvider, $analyticsProvider, snapRemoteProvider) {
         $stateProvider
             .state('index', {
                 abstract: true,
-                controller: 'CNCController as cncCtrl',
+                //controller: 'CNCController as cncCtrl',
                 resolve: {
                     UAccount: /*@ngInject*/ ["Account", function (Account) {
                         return Account;
@@ -105,7 +105,7 @@ angular.module('gtfest', ['ui.bootstrap', 'restangular', 'ui.router', 'ngStorage
                             Events.setCurrentEvent(response.plain());
                             return deferred.resolve(response);
                         }, function (error) {
-                            $state.go('portal');
+                            $state.go('globalSkeleton.portal');
                             return deferred.reject();
                         });
                         return deferred.promise;
@@ -116,7 +116,8 @@ angular.module('gtfest', ['ui.bootstrap', 'restangular', 'ui.router', 'ngStorage
                 parent: 'index'
             })
             .state('eventSkeleton.event', {
-                url: '/{opt:(?:login|register)}',
+                url:'',
+                //url: '/{opt:(?:login|register)}',
                 params: {
                     opt: {value: null},
                     eventId: {}
@@ -454,6 +455,12 @@ angular.module('gtfest', ['ui.bootstrap', 'restangular', 'ui.router', 'ngStorage
 
             $analyticsProvider.firstPageview(true); /* Records pages that don't use $state or $route */
             $analyticsProvider.withAutoBase(true);  /* Records full path */
+
+            snapRemoteProvider.globalOptions = {
+                disable: 'right',
+                flickThreshold:20,
+                resistance: 50
+            }
 
     }]);
 // @ngInject
