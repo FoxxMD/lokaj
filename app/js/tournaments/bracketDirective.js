@@ -23,12 +23,15 @@ function bracketDirective(Tournaments, $stateParams, $q){
             function editNill(container, data, doneCB){
 
             }
+            function save(data, userData){
+                console.log(data);
+            }
 
             Tournaments.getBracket().then(function(response){
                 scope.bracketData = response.plain();
                 $(elem).find('#bracketArea').bracket({
                     init: scope.bracketData,
-                    save: function(){},
+                    save: save,
                     decorator:{
                         edit: editNill,
                         render: renderTeam
