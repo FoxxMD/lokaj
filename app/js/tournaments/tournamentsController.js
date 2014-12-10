@@ -6,12 +6,15 @@ angular.module('gtfest')
 
 // @ngInject
 function toursCtrl($scope, Events, $state, $stateParams, Account, $timeout, $q, Tournaments, Games) {
-    var that = this,
-        pageNo = 1;
+    var that = this;
+    var pageNo = 1;
     this.state = $state;
     this.event = Events.getCurrentEvent();
-    Tournaments.getTournaments($stateParams.eventId.toString()).then(function (response) {
-        that.toursCollection = response.plain();
+/*    Events.getTournaments($stateParams.eventId.toString()).then(function(response) {
+       that.toursCollection = response.plain();
+    });*/
+    Events.getTournaments($stateParams.eventId.toString()).then(function (response) {
+        //that.toursCollection = response.plain();
     });
     if($stateParams.gameFilter != null)
     {

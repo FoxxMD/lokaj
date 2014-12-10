@@ -99,6 +99,10 @@ angular.module('gtfest')
             var eid = eventId || currentEvent.id.toString();
             return events.one(eid).all('teamsAndGuilds').getList({page: pageNo});
         };
+        this.getTournaments = function(eventId) {
+            var eid = eventId || currentEvent.id.toString();
+            return events.one(eid).all('tournaments').getList();
+        };
         this.isAdmin = function(user, event){
             var e = event || currentEvent;
             return e != undefined && (_.some(currentEvent.admins, {'id':user.id}));

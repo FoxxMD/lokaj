@@ -53,7 +53,7 @@ function tourDirective(Tournaments, Events, Guilds, $state, $stateParams, Accoun
             };
         }],
         link: function (scope, elem, attrs) {
-            var content = $(document).find('.st-content')[0],
+            var content = $(document).find('.snap-content')[0],
                 tabs = $(elem).find('.tabs')[0],
                 fixed = false;
             content.addEventListener( 'scroll', function( event ) {
