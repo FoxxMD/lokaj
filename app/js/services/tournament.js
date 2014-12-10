@@ -9,10 +9,10 @@ angular.module('gtfest')
 
         //var tournaments = Restangular.all('events').one($stateParams.eventId.toString()).all('tournaments');
         function restNew() {
-            return Restangular.all('events').one($stateParams.eventId.toString()).all('tournaments');
+            return Restangular.all('tournaments');
         }
         function RestTour(eventId) {
-            return Restangular.all('events').one(eventId).all('tournaments');
+            return Restangular.all('tournaments');
         };
 
         this.getCurrent = function(){
@@ -28,6 +28,10 @@ angular.module('gtfest')
         };
         this.getTournament = function(eventId, tourId) {
             return RestTour(eventId).one(tourId).get();
+        };
+        this.getBracket = function(tourId) {
+            var tid = tourId || currentTournament.id;
+            return restNew().one(tid.toString()).one("bracket").get();
         };
         this.createTournament = function(eventId, tourData) {
             return RestTour(eventId).post(tourData);

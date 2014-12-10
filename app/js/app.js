@@ -1,7 +1,7 @@
 // Declare app level module which depends on filters, and services
 // @ngInject
 angular.module('gtfest', ['ui.bootstrap', 'restangular', 'ui.router', 'ngStorage', 'ngTouch',
-        'ui.bootstrap.showErrors', 'ngAnimate', 'ui.validate', 'angular-loading-bar', 'ngSanitize','angular-ladda',
+        'ui.bootstrap.showErrors', 'ngAnimate', 'ui.validate', 'ngSanitize','angular-ladda',
         'xeditable','angularPayments', 'ui.calendar','infinite-scroll','wu.masonry','ngTagsInput','ui.tree',
         'angulartics', 'angulartics.google.analytics', 'toaster', 'ngFlowtype', 'toggle-switch', 'snap'],
     ["$stateProvider", "$urlRouterProvider", "$locationProvider", "$httpProvider", "RestangularProvider", "$analyticsProvider","snapRemoteProvider",
@@ -128,8 +128,8 @@ angular.module('gtfest', ['ui.bootstrap', 'restangular', 'ui.router', 'ngStorage
                 url: '/schedule',
                 controller:'ScheduleController as scheduleCtrl',
                 resolve: {
-                    tourData: /*@ngInject*/ ["Tournaments", "$stateParams", function(Tournaments, $stateParams) {
-                      return Tournaments.getTournaments($stateParams.eventId.toString());
+                    tourData: /*@ngInject*/ ["Events", "$stateParams", function(Events, $stateParams) {
+                      return Events.getTournaments($stateParams.eventId.toString());
                     }]
                 },
                 params: {
@@ -173,6 +173,14 @@ angular.module('gtfest', ['ui.bootstrap', 'restangular', 'ui.router', 'ngStorage
             .state('eventSkeleton.tournament.roster', {
                 url:'',
                 template:'<roster></roster>',
+                params:{
+                    eventId:{},
+                    tournamentId:{}
+                }
+            })
+            .state('eventSkeleton.tournament.bracket', {
+                url:'/bracket',
+                template:'<bracket></bracket>',
                 params:{
                     eventId:{},
                     tournamentId:{}

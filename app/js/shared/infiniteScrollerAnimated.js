@@ -24,7 +24,7 @@ function scroller($timeout){
                             minDuration : 0.4,
                             maxDuration : 0.7,
                             viewportFactor : 0.2,
-                            scrollingElement: $('.st-content')[0]
+                            scrollingElement: $('.snap-content')[0]
                         } );
                     }
                     else{
