@@ -29,10 +29,7 @@ angular.module('gtfest')
         this.getTournament = function(eventId, tourId) {
             return RestTour(eventId).one(tourId).get();
         };
-        this.getBracket = function(tourId) {
-            var tid = tourId || currentTournament.id;
-            return restNew().one(tid.toString()).one("bracket").get();
-        };
+
         this.createTournament = function(eventId, tourData) {
             return RestTour(eventId).post(tourData);
         };
@@ -129,5 +126,15 @@ angular.module('gtfest')
             userId = userId || Account.user().id.toString();
             tourId = tourId || currentTournament.id.toString();
             return restNew().one(tourId).all('players').one(userId).remove();
-        }
+        };
+        /*
+            Bracket Functionality
+         */
+        function RestBracket(tourId){
+            var tid = tourId || currentTournament.id;
+            return restNew().one(tid.toString()).one("bracket");
+        };
+        this.getBracket = function(tourId) {
+            return RestBracket(tourId);
+        };
     }]);

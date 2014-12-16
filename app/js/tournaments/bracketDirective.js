@@ -5,7 +5,7 @@ angular.module('gtfest')
     .directive('bracket', bracketDirective);
 
 // @ngInject
-function bracketDirective(Tournaments, $stateParams, $q){
+function bracketDirective(Tournaments, $stateParams, $q, Brackets){
     return {
         restrict: 'E',
         templateUrl:'/views/tournaments/bracket.html',
@@ -13,6 +13,7 @@ function bracketDirective(Tournaments, $stateParams, $q){
         controller: /*@ngInject*/ ["$scope", function ($scope) {
             var that = this;
             this.tour = Tournaments.getCurrent();
+            Brackets.setCurrent($stateParams.tournamentId);
 
         }],
         link: function (scope, elem, attrs) {
@@ -23,14 +24,14 @@ function bracketDirective(Tournaments, $stateParams, $q){
             function editNill(container, data, doneCB){
 
             }
-            function save(data, userData){
-                console.log(data);
+            function save(data, userData, returnData){
+                console.log(returnData);
+                Brackets.setMatchScore(returnData.matchId, returnData.team.name.id, returnData.score)
             }
-
-            Tournaments.getBracket().then(function(response){
-                scope.bracketData = response.plain();
+            Brackets.getCurrent().then(function(response){
+                scope.bracketCtrl.bracketData = response;
                 $(elem).find('#bracketArea').bracket({
-                    init: scope.bracketData,
+                    init: scope.bracketCtrl.bracketData,
                     save: save,
                     decorator:{
                         edit: editNill,
@@ -42,4 +43,4 @@ function bracketDirective(Tournaments, $stateParams, $q){
     }
 }
 
-bracketDirective.$inject = ["Tournaments", "$stateParams", "$q"];
+bracketDirective.$inject = ["Tournaments", "$stateParams", "$q", "Brackets"];

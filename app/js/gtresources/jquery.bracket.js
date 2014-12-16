@@ -581,7 +581,7 @@
             ], results: [] };
         data = opts.init;
         var topCon = $('<div class="jQBracket ' + opts.dir + '"></div>').appendTo(opts.el.empty());
-        function renderAll(save) {
+        function renderAll(save, returnData) {
             resultIdentifier = 0;
             w.render();
             if (l && f) {
@@ -596,11 +596,11 @@
                     data.results[2] = f.results();
                 }
                 if (opts.save)
-                    opts.save(data, opts.userData);
+                    opts.save(data, opts.userData, returnData);
             }
         }
         function mkMatch(round, data, idx, results, renderCb) {
-            var match = { a: data[0], b: data[1] };
+            var match = { a: data[0], b: data[1], extId: results != undefined ? results[2] || null : null };
             function teamElement(round, team, isReady) {
                 var rId = resultIdentifier;
                 var sEl = $('<div class="score" data-resultid="result-' + rId + '"></div>');
@@ -692,7 +692,12 @@
                                     span.html(val);
                                     if (isNumber(val) && score !== parseInt(val, 10)) {
                                         team.score = parseInt(val, 10);
-                                        renderAll(true);
+                                        var returnData = {
+                                            team: team.name,
+                                            score: team.score,
+                                            matchId: match.extId
+                                        };
+                                        renderAll(true, returnData);
                                     }
                                     span.click(editor);
                                 });
@@ -726,6 +731,7 @@
             match.b.name = match.b.source().name;
             match.a.score = !results ? null : results[0];
             match.b.score = !results ? null : results[1];
+            match.extId = !results ? null : results[2];
             /* match has score even though teams haven't yet been decided */
             /* todo: would be nice to have in preload check, maybe too much work */
             if ((!match.a.name || !match.b.name) && (isNumber(match.a.score) || isNumber(match.b.score))) {
@@ -830,7 +836,7 @@
                         this.connect(connectorCb);
                 },
                 results: function () {
-                    return [match.a.score, match.b.score];
+                    return [match.a.score, match.b.score, match.extId];
                 }
             };
         }
@@ -872,7 +878,7 @@
                                 throw 'match size not valid';
                             }
                             /*logical xor*/
-                            if (!(isNumber(ma[0]) ? isNumber(ma[1]) : !isNumber(ma[1]))) {
+                            if (!((isNumber(ma[0]) || isBoolean(ma[0])) ? (isNumber(ma[1]) || isBoolean(ma[0])) : !(isNumber(ma[1]) || isBoolean(ma[0])))) {
                                 console.log('mixed results', ma);
                                 throw 'mixed results';
                             }
