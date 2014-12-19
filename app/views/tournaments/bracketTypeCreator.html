@@ -1,0 +1,48 @@
+<div class="bracketTypeContainer">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Available Brackets</h3>
+            <ul class="list-group">
+                <li class="list-group-item" ng-repeat="bt in btCtrl.brackets">
+                        <span><strong>{{bt.name}}</strong> <span ng-if="bt.teamPlay">(Team)</span></span>
+                        <button style="float:right;" class="btn-xs btn-info" ng-click="btCtrl.addBracket(bt)">Add</button>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-12">
+            <h3>Selected Brackets</h3>
+            <script type="text/ng-template" id="node_renderer.html">
+                <div ui-tree-handle class="tree-node tree-node-content">
+                    <div style="display:inline;" data-nodrag>
+                        <div class="row">
+                            <div class="col-md-4 col-xs-3"><strong>{{$modelValue.bracketType.name}}</strong></div>
+                            <div class="col-md-3 col-xs-3">
+                                <div class="btn-group" dropdown is-open="status.isopen">
+                                <button type="button" class="btn-link dropdown-toggle" dropdown-toggle ng-disabled="disabled">
+                                    {{$modelValue.seedSize == 0 ? 'Seed Size' : 'Seed Size: ' + $modelValue.seedSize}} <span ng-hide="$modelValue.seedSize != 0" class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li ng-repeat="seed in btCtrl.seedSizes"><a href="#" style="color:black;" ng-click="$modelValue.seedSize = seed">{{seed}}</a></li>
+                                </ul>
+                            </div> </div> <!--<a editable-text="$modelValue.seedSize">{{$modelValue.seedSize}}</a>-->
+                            <div class="col-md-3 col-xs-4">
+                               <input type="checkbox" class="btn btn-info" ng-model="$modelValue.teamPlay" btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">Team Play?</input>
+                            </div>
+                            <div class="col-md-2 col-xs-1">
+                                <a class="pull-right btn btn-danger btn-xs" data-nodrag ng-click="remove(this)"><i class="fa fa-close"></i></a>
+                            </div>
+
+                        </div>
+                       </div>
+
+                </div>
+            </script>
+            <div ui-tree data-drag-delay="200" class="angular-ui-tree" ng-show="bracketData.length > 0">
+                <ol ui-tree-nodes="" ng-model="bracketData" class="angular-ui-tree-nodes">
+                    <li ng-repeat="node in bracketData track by $index" ui-tree-node ng-include="'node_renderer.html'" class="angular-ui-tree-node"></li>
+                </ol>
+            </div>
+            <span ng-if="bracketData.length == 0">None yet!</span>
+        </div>
+    </div>
+</div>

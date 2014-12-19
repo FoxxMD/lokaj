@@ -18,7 +18,7 @@ angular.module('gtfest')
         };
         this.setCurrent = function(tournamentId){
             _tourId = tournamentId;
-            rBracket = Restangular.all('tournaments').one(tournamentId.toString()).one("bracket");
+            rBracket = Restangular.all('tournaments').one(tournamentId.toString()).one("brackets");
         };
         this.setMatchScore = function(matchId, participantId, score) {
             return rBracket.one('match', matchId.toString()).patch({participantId: participantId, score: score});

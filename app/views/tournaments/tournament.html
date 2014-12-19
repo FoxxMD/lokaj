@@ -10,6 +10,7 @@
             {{!tourCtrl.isAdmin() ? tourCtrl.tour.tournamentType.name : ''}}
             <span ng-if="tourCtrl.tour.details.name != undefined"><br/> <a ng-if="tourCtrl.isAdmin()" editable-text="tourCtrl.tour.details.name" onaftersave="tourCtrl.updateName($data)">{{tourCtrl.tour.details.name}}</a> <span ng-if="!tourCtrl.isAdmin()">{{tourCtrl.tour.details.name}}</span></span>
         </h1>
+        <bracket-types-creator bracketdata="tourCtrl.tour.brackets" game="tourCtrl.tour.game"></bracket-types-creator>
     </div>
     <div class="col-md-4">
         <div time-editor time-end="tourCtrl.tour.details.timeEnd" timestart="tourCtrl.tour.details.timeStart" iseditable="tourCtrl.isAdmin()"
