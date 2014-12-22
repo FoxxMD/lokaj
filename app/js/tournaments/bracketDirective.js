@@ -13,6 +13,7 @@ function bracketDirective(Tournaments, $stateParams, $q, Brackets){
         controller: /*@ngInject*/ ["$scope", function ($scope) {
             var that = this;
             this.tour = Tournaments.getCurrent();
+            this.tourService = Tournaments;
             Brackets.setCurrent($stateParams.tournamentId);
 
         }],
@@ -33,6 +34,9 @@ function bracketDirective(Tournaments, $stateParams, $q, Brackets){
                 $(elem).find('#bracketArea').bracket({
                     init: scope.bracketCtrl.bracketData,
                     save: save,
+                    changedDataHook: function(team, score, match) {
+                      return {team: team.name, score: team.score, matchId: match.extId}
+                    },
                     decorator:{
                         edit: editNill,
                         render: renderTeam

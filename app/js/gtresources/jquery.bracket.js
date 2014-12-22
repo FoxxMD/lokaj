@@ -119,6 +119,9 @@
     function defaultRender(container, team, score) {
         container.append(team);
     }
+    function defaultChangedDataHook(team, score, match) {
+        return { team: team, score: score, match: match };
+    }
     function winnerBubbles(match) {
         var el = match.el;
         var winner = el.find('.team.win');
@@ -574,6 +577,8 @@
             throw Error('Invalid decorator input');
         else if (!opts.decorator)
             opts.decorator = { edit: defaultEdit, render: defaultRender };
+        if (!opts.changedDataHook)
+            opts.changedDataHook = defaultChangedDataHook;
         var data;
         if (!opts.init)
             opts.init = { teams: [
@@ -692,11 +697,7 @@
                                     span.html(val);
                                     if (isNumber(val) && score !== parseInt(val, 10)) {
                                         team.score = parseInt(val, 10);
-                                        var returnData = {
-                                            team: team.name,
-                                            score: team.score,
-                                            matchId: match.extId
-                                        };
+                                        var returnData = opts.changedDataHook(team, team.score, match);
                                         renderAll(true, returnData);
                                     }
                                     span.click(editor);

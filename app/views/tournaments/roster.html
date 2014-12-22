@@ -1,4 +1,4 @@
-<div ng-if="rosterCtrl.tour.tournamentType.teamPlay">
+<div ng-if="rosterCtrl.tourService.hasTeamPlay()">
     <h4 class="text-center">Minimum players per team: <a ng-if="tourCtrl.isAdmin()"
                                                          editable-number="rosterCtrl.tour.details.teamMinSize"
                                                          onaftersave="rosterCtrl.changeTeamSize()">{{rosterCtrl.tour.details.teamMinSize}}</a>
@@ -8,11 +8,11 @@
                                                          onaftersave="rosterCtrl.changeTeamSize()">{{rosterCtrl.tour.details.teamMaxSize}}</a>
         <span ng-if="!tourCtrl.isAdmin()">{{rosterCtrl.tour.details.teamMaxSize == 0 ? 'No Maximum' : rosterCtrl.tour.details.teamMaxSize}}</span></h4>
 </div>
-<div ng-if="!rosterCtrl.tour.tournamentType.teamPlay">
+<div ng-if="!rosterCtrl.tourService.hasTeamPlay()">
     <h4 class="text-center">Minimum players: {{rosterCtrl.tour.details.playerMinSize == 0 ? 'No Minimum' : rosterCtrl.tour.details.playerMinSize}}</h4>
     <h4 class="text-center">Maximum players: {{rosterCtrl.tour.details.playerMaxSize == 0 ? 'No Maximum' : rosterCtrl.tour.details.playerMaxSize}}</h4>
 </div>
-<morphing-button ng-if="rosterCtrl.account.isLoggedIn() && rosterCtrl.tour.tournamentType.teamPlay && rosterCtrl.isOnTeam == undefined" title="Create Team">
+<morphing-button ng-if="rosterCtrl.account.isLoggedIn() && rosterCtrl.tourService.hasTeamPlay() && rosterCtrl.isOnTeam == undefined" title="Create Team">
     <form class="form morphingButtonForm" name="newTeamForm" ng-submit="rosterCtrl.createNewTeam(newTeamForm)">
         <div ng-show="!rosterCtrl.showTeamForm">
             <div ng-click="rosterCtrl.showTeamForm = true;" class="teamChoiceButton">
@@ -47,23 +47,23 @@
 </morphing-button>
 
 <button
-    ng-if="rosterCtrl.account.isLoggedIn() && !rosterCtrl.tour.tournamentType.teamPlay && ((rosterCtrl.tour.users.length < rosterCtrl.tour.details.playerMaxSize || rosterCtrl.tour.details.playerMaxSize == 0) || rosterCtrl.isOnRoster)"
+    ng-if="rosterCtrl.account.isLoggedIn() && !rosterCtrl.tourService.hasTeamPlay() && ((rosterCtrl.tour.users.length < rosterCtrl.tour.details.playerMaxSize || rosterCtrl.tour.details.playerMaxSize == 0) || rosterCtrl.isOnRoster)"
     ladda="rosterCtrl.rosterStatusLoading" data-style="expand-right" class="btn btn-lg"
     ng-click="rosterCtrl.changeRosterStatus()" ng-class="rosterCtrl.isOnRoster ? 'btn-warning' : 'btn-info'">{{rosterCtrl.isOnRoster ? 'Leave' : 'Join Tournament'}}
 </button>
 
-<infinite-scroller-animated ng-if="!rosterCtrl.tour.tournamentType.teamPlay">
+<infinite-scroller-animated ng-if="!rosterCtrl.tourService.hasTeamPlay()">
     <ul class="grid effect-6" ng-class="{'cs-style-4':tourCtrl.isAdmin()}" masonry="{transitionDuration: 0}" id="grid" load-images="false" column-width=".grid-sizer"
         infinite-scroll="rosterCtrl.dumb()"
         infinite-scroll-container="'#st-content'" infinite-scroll-disabled="true">
         <div class="grid-sizer"></div>
         <li class="masonry-brick eventCard component outline-outward tournamentComponent" ng-class="{'outline-outward': !tourCtrl.isAdmin()}"
-            ng-repeat="user in rosterCtrl.tour.users" on-last-repeat>
+            ng-repeat="user in rosterCtrl.users" on-last-repeat>
             <div ng-if="tourCtrl.isModerator()" class="actionContainer">
             </div>
-            <div class="contentClick" ng-click="rosterCtrl.state.go('eventSkeleton.profile',{userId:user.id})">
+            <div class="contentClick" ng-click="rosterCtrl.state.go('eventSkeleton.profile',{userId:user.user.id})">
                 <div class="tileHeader">
-                    {{user.name}}
+                    {{user.user.globalHandle}}
                 </div>
                 <div class="tileContentContainer">
                     <div class="tileContent">
@@ -93,11 +93,11 @@
     </ul>
 </infinite-scroller-animated>
 
-<infinite-scroller-animated ng-if="rosterCtrl.tour.tournamentType.teamPlay">
+<infinite-scroller-animated ng-if="rosterCtrl.tourService.hasTeamPlay()">
     <ul class="grid effect-6" masonry="{transitionDuration: 0}" id="grid" load-images="false" column-width=".grid-sizer" infinite-scroll="toursCtrl.dumb()"
         infinite-scroll-container="'#st-content'" infinite-scroll-disabled="true">
         <div class="grid-sizer"></div>
-        <li class="masonry-brick eventCard component outline-outward tournamentComponent" ng-repeat="team in rosterCtrl.tour.teams" on-last-repeat style="cursor:default;">
+        <li class="masonry-brick eventCard component outline-outward tournamentComponent" ng-repeat="team in rosterCtrl.teams" on-last-repeat style="cursor:default;">
             <!--content -->
             <div class="actionContainer">
                 <button ladda="team.teamJoinLoading" data-style="expand-right"

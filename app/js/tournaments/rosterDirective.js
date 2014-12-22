@@ -15,6 +15,8 @@ function rostDirective(Tournaments, Events, Guilds, $state, $stateParams, Accoun
             this.user = Account.user();
             this.account = Account;
             this.tourService = Tournaments;
+
+
             this.newTeamData = {
                 teamPlayers: [Account.isLoggedIn() ? that.user.id : undefined],
                 guildOnly: false,
@@ -22,10 +24,21 @@ function rostDirective(Tournaments, Events, Guilds, $state, $stateParams, Accoun
             };
             this.state = $state;
             this.showTeamForm = Account.isLoggedIn() ? that.user.guilds.length == 0 : false;
-            if (that.tour.tournamentType.teamPlay)
-                this.isOnTeam = Account.isLoggedIn() ? Tournaments.isOnTeamInRoster(Account.user().id) : false;
+            if (Tournaments.hasTeamPlay())
+            {
+                that.isOnTeam = Account.isLoggedIn() ? Tournaments.isOnTeamInRoster(Account.user().id) : false;
+                Tournaments.getTeams().then(function(response){
+                   that.teams = response.plain();
+                });
+            }
             else
-                this.isOnRoster = Account.isLoggedIn() ? Tournaments.isUserInRoster(Account.user().id) : false;
+            {
+                that.isOnRoster = Account.isLoggedIn() ? Tournaments.isUserInRoster(Account.user().id) : false;
+                Tournaments.getUsers().then(function(response){
+                    that.users = response.plain();
+                });
+            }
+
             this.toggleGuildMemberSelection = function (player) {
                 if (!player.selected) {
                     if (Tournaments.canAddTeamMember(that.newTeamData.teamPlayers)) {
@@ -91,7 +104,7 @@ function rostDirective(Tournaments, Events, Guilds, $state, $stateParams, Accoun
                 if(Account.isLoggedIn()){
                     userId = userId || that.user.id;
                     return _.find(team.teamPlayers, function (player) {
-                        return player.User.isCaptain && player.User.id == userId;
+                        return player.isCaptain && player.id == userId;
                     });
                 }
                 else{

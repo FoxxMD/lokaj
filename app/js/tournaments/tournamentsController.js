@@ -14,7 +14,7 @@ function toursCtrl($scope, Events, $state, $stateParams, Account, $timeout, $q, 
        that.toursCollection = response.plain();
     });*/
     Events.getTournaments($stateParams.eventId.toString()).then(function (response) {
-        //that.toursCollection = response.plain();
+        that.toursCollection = response.plain();
     });
     if($stateParams.gameFilter != null)
     {

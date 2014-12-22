@@ -23,6 +23,15 @@ angular.module('gtfest')
             currentTournament = tour;
         };
 
+        this.getTeams = function(tour) {
+            tour = tour || currentTournament;
+            return restNew().one(tour.id.toString()).all('teams').getList();
+        };
+        this.getUsers = function(tour) {
+            tour = tour || currentTournament;
+            return restNew().one(tour.id.toString()).all('users').getList();
+        };
+
         this.getTournaments = function(eventId, pageNo) {
            return RestTour(eventId).getList({page: pageNo});
         };
@@ -71,6 +80,10 @@ angular.module('gtfest')
            return _.find(tour.users, function(user) {
                 return user.id == userId;
             })
+        };
+        this.hasTeamPlay = function(tour){
+            tour = tour || currentTournament;
+            return _.some(tour.brackets, {'teamPlay': true});
         };
         this.canAddTeamMember = function(team, tour) {
             tour = tour || currentTournament;
